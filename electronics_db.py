@@ -1,4 +1,4 @@
-from typing import List
+from typing import Optional
 
 
 # ─────────────────────────────────────────────
@@ -465,56 +465,56 @@ class ElectronicsManufacturer:
 class ElectronicComponents:
     def __init__(
         self,
-        resistors: List[Resistor] = None,
-        capacitors: List[Capacitor] = None,
-        integrated_circuits: List[IntegratedCircuit] = None,
-        transistors: List[Transistor] = None,
-        diodes: List[Diode] = None,
+        resistors: Optional[Resistor] = None,
+        capacitors: Optional[Capacitor] = None,
+        integrated_circuits: Optional[IntegratedCircuit] = None,
+        transistors: Optional[Transistor] = None,
+        diodes: Optional[Diode] = None,
     ):
-        self._resistors = resistors or []
-        self._capacitors = capacitors or []
-        self._integrated_circuits = integrated_circuits or []
-        self._transistors = transistors or []
-        self._diodes = diodes or []
+        self._resistors = resistors
+        self._capacitors = capacitors
+        self._integrated_circuits = integrated_circuits
+        self._transistors = transistors
+        self._diodes = diodes
 
     @property
-    def resistors(self) -> List[Resistor]:
+    def resistors(self) -> Optional[Resistor]:
         return self._resistors
 
     @resistors.setter
-    def resistors(self, value: List[Resistor]):
+    def resistors(self, value: Resistor):
         self._resistors = value
 
     @property
-    def capacitors(self) -> List[Capacitor]:
+    def capacitors(self) -> Optional[Capacitor]:
         return self._capacitors
 
     @capacitors.setter
-    def capacitors(self, value: List[Capacitor]):
+    def capacitors(self, value: Capacitor):
         self._capacitors = value
 
     @property
-    def integrated_circuits(self) -> List[IntegratedCircuit]:
+    def integrated_circuits(self) -> Optional[IntegratedCircuit]:
         return self._integrated_circuits
 
     @integrated_circuits.setter
-    def integrated_circuits(self, value: List[IntegratedCircuit]):
+    def integrated_circuits(self, value: IntegratedCircuit):
         self._integrated_circuits = value
 
     @property
-    def transistors(self) -> List[Transistor]:
+    def transistors(self) -> Optional[Transistor]:
         return self._transistors
 
     @transistors.setter
-    def transistors(self, value: List[Transistor]):
+    def transistors(self, value: Transistor):
         self._transistors = value
 
     @property
-    def diodes(self) -> List[Diode]:
+    def diodes(self) -> Optional[Diode]:
         return self._diodes
 
     @diodes.setter
-    def diodes(self, value: List[Diode]):
+    def diodes(self, value: Diode):
         self._diodes = value
 
 
@@ -525,26 +525,26 @@ class ElectronicComponents:
 class Components:
     def __init__(
         self,
-        boards: List[Board] = None,
-        connectors: List[Connector] = None,
+        boards: Optional[Board] = None,
+        connectors: Optional[Connector] = None,
     ):
-        self._boards = boards or []
-        self._connectors = connectors or []
+        self._boards = boards
+        self._connectors = connectors
 
     @property
-    def boards(self) -> List[Board]:
+    def boards(self) -> Optional[Board]:
         return self._boards
 
     @boards.setter
-    def boards(self, value: List[Board]):
+    def boards(self, value: Board):
         self._boards = value
 
     @property
-    def connectors(self) -> List[Connector]:
+    def connectors(self) -> Optional[Connector]:
         return self._connectors
 
     @connectors.setter
-    def connectors(self, value: List[Connector]):
+    def connectors(self, value: Connector):
         self._connectors = value
 
 
@@ -555,26 +555,26 @@ class Components:
 class Tools:
     def __init__(
         self,
-        soldering_equipment: List[SolderingEquipment] = None,
-        measuring_instruments: List[MeasuringInstrument] = None,
+        soldering_equipment: Optional[SolderingEquipment] = None,
+        measuring_instruments: Optional[MeasuringInstrument] = None,
     ):
-        self._soldering_equipment = soldering_equipment or []
-        self._measuring_instruments = measuring_instruments or []
+        self._soldering_equipment = soldering_equipment
+        self._measuring_instruments = measuring_instruments
 
     @property
-    def soldering_equipment(self) -> List[SolderingEquipment]:
+    def soldering_equipment(self) -> Optional[SolderingEquipment]:
         return self._soldering_equipment
 
     @soldering_equipment.setter
-    def soldering_equipment(self, value: List[SolderingEquipment]):
+    def soldering_equipment(self, value: SolderingEquipment):
         self._soldering_equipment = value
 
     @property
-    def measuring_instruments(self) -> List[MeasuringInstrument]:
+    def measuring_instruments(self) -> Optional[MeasuringInstrument]:
         return self._measuring_instruments
 
     @measuring_instruments.setter
-    def measuring_instruments(self, value: List[MeasuringInstrument]):
+    def measuring_instruments(self, value: MeasuringInstrument):
         self._measuring_instruments = value
 
 
@@ -585,26 +585,26 @@ class Tools:
 class Services:
     def __init__(
         self,
-        prototyping: List[Prototyping] = None,
-        repair: List[Repair] = None,
+        prototyping: Optional[Prototyping] = None,
+        repair: Optional[Repair] = None,
     ):
-        self._prototyping = prototyping or []
-        self._repair = repair or []
+        self._prototyping = prototyping
+        self._repair = repair
 
     @property
-    def prototyping(self) -> List[Prototyping]:
+    def prototyping(self) -> Optional[Prototyping]:
         return self._prototyping
 
     @prototyping.setter
-    def prototyping(self, value: List[Prototyping]):
+    def prototyping(self, value: Prototyping):
         self._prototyping = value
 
     @property
-    def repair(self) -> List[Repair]:
+    def repair(self) -> Optional[Repair]:
         return self._repair
 
     @repair.setter
-    def repair(self, value: List[Repair]):
+    def repair(self, value: Repair):
         self._repair = value
 
 
@@ -645,26 +645,26 @@ class MassProduction:
 class AdditionalServices:
     def __init__(
         self,
-        technical_documentation: List[TechnicalDocumentation] = None,
-        engineer_consultations: List[EngineerConsultation] = None,
+        technical_documentation: Optional[TechnicalDocumentation] = None,
+        engineer_consultations: Optional[EngineerConsultation] = None,
     ):
-        self._technical_documentation = technical_documentation or []
-        self._engineer_consultations = engineer_consultations or []
+        self._technical_documentation = technical_documentation
+        self._engineer_consultations = engineer_consultations
 
     @property
-    def technical_documentation(self) -> List[TechnicalDocumentation]:
+    def technical_documentation(self) -> Optional[TechnicalDocumentation]:
         return self._technical_documentation
 
     @technical_documentation.setter
-    def technical_documentation(self, value: List[TechnicalDocumentation]):
+    def technical_documentation(self, value: TechnicalDocumentation):
         self._technical_documentation = value
 
     @property
-    def engineer_consultations(self) -> List[EngineerConsultation]:
+    def engineer_consultations(self) -> Optional[EngineerConsultation]:
         return self._engineer_consultations
 
     @engineer_consultations.setter
-    def engineer_consultations(self, value: List[EngineerConsultation]):
+    def engineer_consultations(self, value: EngineerConsultation):
         self._engineer_consultations = value
 
 
@@ -675,34 +675,34 @@ class AdditionalServices:
 class CustomerRelations:
     def __init__(
         self,
-        hobbyists: List[Hobbyist] = None,
-        service_centers: List[ServiceCenter] = None,
-        electronics_manufacturers: List[ElectronicsManufacturer] = None,
+        hobbyists: Optional[Hobbyist] = None,
+        service_centers: Optional[ServiceCenter] = None,
+        electronics_manufacturers: Optional[ElectronicsManufacturer] = None,
     ):
-        self._hobbyists = hobbyists or []
-        self._service_centers = service_centers or []
-        self._electronics_manufacturers = electronics_manufacturers or []
+        self._hobbyists = hobbyists
+        self._service_centers = service_centers
+        self._electronics_manufacturers = electronics_manufacturers
 
     @property
-    def hobbyists(self) -> List[Hobbyist]:
+    def hobbyists(self) -> Optional[Hobbyist]:
         return self._hobbyists
 
     @hobbyists.setter
-    def hobbyists(self, value: List[Hobbyist]):
+    def hobbyists(self, value: Hobbyist):
         self._hobbyists = value
 
     @property
-    def service_centers(self) -> List[ServiceCenter]:
+    def service_centers(self) -> Optional[ServiceCenter]:
         return self._service_centers
 
     @service_centers.setter
-    def service_centers(self, value: List[ServiceCenter]):
+    def service_centers(self, value: ServiceCenter):
         self._service_centers = value
 
     @property
-    def electronics_manufacturers(self) -> List[ElectronicsManufacturer]:
+    def electronics_manufacturers(self) -> Optional[ElectronicsManufacturer]:
         return self._electronics_manufacturers
 
     @electronics_manufacturers.setter
-    def electronics_manufacturers(self, value: List[ElectronicsManufacturer]):
+    def electronics_manufacturers(self, value: ElectronicsManufacturer):
         self._electronics_manufacturers = value
