@@ -1,230 +1,230 @@
 from typing import List
 
 
-# 1. Электронные компоненты
-class ЭлектронныеКомпоненты:
+# 1. Electronic components
+class ElectronicComponents:
     def __init__(
         self,
-        резисторы: List = None,
-        конденсаторы: List = None,
-        микросхемы: List = None,
-        транзисторы: List = None,
-        диоды: List = None,
+        resistors: List = None,
+        capacitors: List = None,
+        integrated_circuits: List = None,
+        transistors: List = None,
+        diodes: List = None,
     ):
-        self._резисторы = резисторы or []
-        self._конденсаторы = конденсаторы or []
-        self._микросхемы = микросхемы or []
-        self._транзисторы = транзисторы or []
-        self._диоды = диоды or []
+        self._resistors = resistors or []
+        self._capacitors = capacitors or []
+        self._integrated_circuits = integrated_circuits or []
+        self._transistors = transistors or []
+        self._diodes = diodes or []
 
     @property
-    def резисторы(self) -> List:
-        return self._резисторы
+    def resistors(self) -> List:
+        return self._resistors
 
-    @резисторы.setter
-    def резисторы(self, значение: List):
-        self._резисторы = значение
-
-    @property
-    def конденсаторы(self) -> List:
-        return self._конденсаторы
-
-    @конденсаторы.setter
-    def конденсаторы(self, значение: List):
-        self._конденсаторы = значение
+    @resistors.setter
+    def resistors(self, value: List):
+        self._resistors = value
 
     @property
-    def микросхемы(self) -> List:
-        return self._микросхемы
+    def capacitors(self) -> List:
+        return self._capacitors
 
-    @микросхемы.setter
-    def микросхемы(self, значение: List):
-        self._микросхемы = значение
-
-    @property
-    def транзисторы(self) -> List:
-        return self._транзисторы
-
-    @транзисторы.setter
-    def транзисторы(self, значение: List):
-        self._транзисторы = значение
+    @capacitors.setter
+    def capacitors(self, value: List):
+        self._capacitors = value
 
     @property
-    def диоды(self) -> List:
-        return self._диоды
+    def integrated_circuits(self) -> List:
+        return self._integrated_circuits
 
-    @диоды.setter
-    def диоды(self, значение: List):
-        self._диоды = значение
+    @integrated_circuits.setter
+    def integrated_circuits(self, value: List):
+        self._integrated_circuits = value
+
+    @property
+    def transistors(self) -> List:
+        return self._transistors
+
+    @transistors.setter
+    def transistors(self, value: List):
+        self._transistors = value
+
+    @property
+    def diodes(self) -> List:
+        return self._diodes
+
+    @diodes.setter
+    def diodes(self, value: List):
+        self._diodes = value
 
 
-# 2. Комплектующие
-class Комплектующие:
+# 2. Components / Hardware
+class Components:
     def __init__(
         self,
-        платы: List = None,
-        разъёмы: List = None,
+        boards: List = None,
+        connectors: List = None,
     ):
-        self._платы = платы or []
-        self._разъёмы = разъёмы or []
+        self._boards = boards or []
+        self._connectors = connectors or []
 
     @property
-    def платы(self) -> List:
-        return self._платы
+    def boards(self) -> List:
+        return self._boards
 
-    @платы.setter
-    def платы(self, значение: List):
-        self._платы = значение
+    @boards.setter
+    def boards(self, value: List):
+        self._boards = value
 
     @property
-    def разъёмы(self) -> List:
-        return self._разъёмы
+    def connectors(self) -> List:
+        return self._connectors
 
-    @разъёмы.setter
-    def разъёмы(self, значение: List):
-        self._разъёмы = значение
+    @connectors.setter
+    def connectors(self, value: List):
+        self._connectors = value
 
 
-# 3. Инструменты
-class Инструменты:
+# 3. Tools
+class Tools:
     def __init__(
         self,
-        паяльное_оборудование: List = None,
-        измерительные_приборы: List = None,
+        soldering_equipment: List = None,
+        measuring_instruments: List = None,
     ):
-        self._паяльное_оборудование = паяльное_оборудование or []
-        self._измерительные_приборы = измерительные_приборы or []
+        self._soldering_equipment = soldering_equipment or []
+        self._measuring_instruments = measuring_instruments or []
 
     @property
-    def паяльное_оборудование(self) -> List:
-        return self._паяльное_оборудование
+    def soldering_equipment(self) -> List:
+        return self._soldering_equipment
 
-    @паяльное_оборудование.setter
-    def паяльное_оборудование(self, значение: List):
-        self._паяльное_оборудование = значение
+    @soldering_equipment.setter
+    def soldering_equipment(self, value: List):
+        self._soldering_equipment = value
 
     @property
-    def измерительные_приборы(self) -> List:
-        return self._измерительные_приборы
+    def measuring_instruments(self) -> List:
+        return self._measuring_instruments
 
-    @измерительные_приборы.setter
-    def измерительные_приборы(self, значение: List):
-        self._измерительные_приборы = значение
+    @measuring_instruments.setter
+    def measuring_instruments(self, value: List):
+        self._measuring_instruments = value
 
 
-# 4. Услуги
-class Услуги:
+# 4. Services
+class Services:
     def __init__(
         self,
-        прототипирование: List = None,
-        ремонт: List = None,
+        prototyping: List = None,
+        repair: List = None,
     ):
-        self._прототипирование = прототипирование or []
-        self._ремонт = ремонт or []
+        self._prototyping = prototyping or []
+        self._repair = repair or []
 
     @property
-    def прототипирование(self) -> List:
-        return self._прототипирование
+    def prototyping(self) -> List:
+        return self._prototyping
 
-    @прототипирование.setter
-    def прототипирование(self, значение: List):
-        self._прототипирование = значение
+    @prototyping.setter
+    def prototyping(self, value: List):
+        self._prototyping = value
 
     @property
-    def ремонт(self) -> List:
-        return self._ремонт
+    def repair(self) -> List:
+        return self._repair
 
-    @ремонт.setter
-    def ремонт(self, значение: List):
-        self._ремонт = значение
+    @repair.setter
+    def repair(self, value: List):
+        self._repair = value
 
 
-# 5. Серийное производство
-class СерийноеПроизводство:
+# 5. Mass production
+class MassProduction:
     def __init__(
         self,
-        сборка_плат: bool = False,
-        тестирование_изделий: bool = False,
+        board_assembly: bool = False,
+        product_testing: bool = False,
     ):
-        self._сборка_плат = сборка_плат
-        self._тестирование_изделий = тестирование_изделий
+        self._board_assembly = board_assembly
+        self._product_testing = product_testing
 
     @property
-    def сборка_плат(self) -> bool:
-        return self._сборка_плат
+    def board_assembly(self) -> bool:
+        return self._board_assembly
 
-    @сборка_плат.setter
-    def сборка_плат(self, значение: bool):
-        self._сборка_плат = значение
+    @board_assembly.setter
+    def board_assembly(self, value: bool):
+        self._board_assembly = value
 
     @property
-    def тестирование_изделий(self) -> bool:
-        return self._тестирование_изделий
+    def product_testing(self) -> bool:
+        return self._product_testing
 
-    @тестирование_изделий.setter
-    def тестирование_изделий(self, значение: bool):
-        self._тестирование_изделий = значение
+    @product_testing.setter
+    def product_testing(self, value: bool):
+        self._product_testing = value
 
 
-# 6. Дополнительные услуги
-class ДополнительныеУслуги:
+# 6. Additional services
+class AdditionalServices:
     def __init__(
         self,
-        техническая_документация: List = None,
-        консультации_инженеров: List = None,
+        technical_documentation: List = None,
+        engineer_consultations: List = None,
     ):
-        self._техническая_документация = техническая_документация or []
-        self._консультации_инженеров = консультации_инженеров or []
+        self._technical_documentation = technical_documentation or []
+        self._engineer_consultations = engineer_consultations or []
 
     @property
-    def техническая_документация(self) -> List:
-        return self._техническая_документация
+    def technical_documentation(self) -> List:
+        return self._technical_documentation
 
-    @техническая_документация.setter
-    def техническая_документация(self, значение: List):
-        self._техническая_документация = значение
+    @technical_documentation.setter
+    def technical_documentation(self, value: List):
+        self._technical_documentation = value
 
     @property
-    def консультации_инженеров(self) -> List:
-        return self._консультации_инженеров
+    def engineer_consultations(self) -> List:
+        return self._engineer_consultations
 
-    @консультации_инженеров.setter
-    def консультации_инженеров(self, значение: List):
-        self._консультации_инженеров = значение
+    @engineer_consultations.setter
+    def engineer_consultations(self, value: List):
+        self._engineer_consultations = value
 
 
-# 7. Работа с клиентами
-class РаботаСКлиентами:
+# 7. Customer relations
+class CustomerRelations:
     def __init__(
         self,
-        радиолюбители: List = None,
-        сервисные_центры: List = None,
-        производители_электроники: List = None,
+        hobbyists: List = None,
+        service_centers: List = None,
+        electronics_manufacturers: List = None,
     ):
-        self._радиолюбители = радиолюбители or []
-        self._сервисные_центры = сервисные_центры or []
-        self._производители_электроники = производители_электроники or []
+        self._hobbyists = hobbyists or []
+        self._service_centers = service_centers or []
+        self._electronics_manufacturers = electronics_manufacturers or []
 
     @property
-    def радиолюбители(self) -> List:
-        return self._радиолюбители
+    def hobbyists(self) -> List:
+        return self._hobbyists
 
-    @радиолюбители.setter
-    def радиолюбители(self, значение: List):
-        self._радиолюбители = значение
-
-    @property
-    def сервисные_центры(self) -> List:
-        return self._сервисные_центры
-
-    @сервисные_центры.setter
-    def сервисные_центры(self, значение: List):
-        self._сервисные_центры = значение
+    @hobbyists.setter
+    def hobbyists(self, value: List):
+        self._hobbyists = value
 
     @property
-    def производители_электроники(self) -> List:
-        return self._производители_электроники
+    def service_centers(self) -> List:
+        return self._service_centers
 
-    @производители_электроники.setter
-    def производители_электроники(self, значение: List):
-        self._производители_электроники = значение
+    @service_centers.setter
+    def service_centers(self, value: List):
+        self._service_centers = value
+
+    @property
+    def electronics_manufacturers(self) -> List:
+        return self._electronics_manufacturers
+
+    @electronics_manufacturers.setter
+    def electronics_manufacturers(self, value: List):
+        self._electronics_manufacturers = value
