@@ -1,6 +1,6 @@
 """
-Integrated circuit model.
-Represents an IC with its functional purpose, supply voltage, and package type.
+Модель микросхемы.
+Описывает микросхему с её назначением, напряжением питания и типом корпуса.
 """
 
 

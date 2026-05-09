@@ -1,6 +1,6 @@
 """
-Tools class.
-Groups soldering equipment and measuring instruments used in electronics work.
+Класс инструментов.
+Объединяет паяльное оборудование и измерительные приборы, используемые в работе с электроникой.
 """
 
 from typing import Optional

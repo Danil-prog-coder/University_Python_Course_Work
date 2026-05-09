@@ -1,6 +1,6 @@
 """
-Capacitor model.
-Represents a capacitor component with capacitance, working voltage, and dielectric type.
+Модель конденсатора.
+Описывает конденсатор с ёмкостью, рабочим напряжением и типом диэлектрика.
 """
 
 

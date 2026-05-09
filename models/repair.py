@@ -1,6 +1,6 @@
 """
-Repair service model.
-Describes which repair sub-services are available: fault diagnosis and component replacement.
+Модель услуги ремонта.
+Описывает доступные подуслуги: диагностика неисправностей и замена компонентов.
 """
 
 

@@ -1,6 +1,6 @@
 """
-Electronics manufacturer customer segment model.
-Describes services offered to manufacturers: wholesale supply and contract assembly.
+Модель сегмента клиентов — производители электроники.
+Описывает услуги для производителей: оптовые поставки и контрактная сборка.
 """
 
 

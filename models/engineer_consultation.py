@@ -1,6 +1,6 @@
 """
-Engineer consultation service model.
-Describes available consultation services: component selection and circuit optimization.
+Модель услуги консультации инженера.
+Описывает доступные подуслуги: подбор компонентов и оптимизация схем.
 """
 
 

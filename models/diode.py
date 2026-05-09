@@ -1,6 +1,6 @@
 """
-Diode model.
-Represents a diode (rectifier, zener, or LED) with forward voltage and maximum current.
+Модель диода.
+Описывает диод (выпрямительный, стабилитрон или светодиод) с прямым напряжением и максимальным током.
 """
 
 

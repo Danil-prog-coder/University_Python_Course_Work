@@ -1,6 +1,6 @@
 """
-PCB board model.
-Represents a printed circuit board with its layer type, base material, and physical size.
+Модель печатной платы (PCB).
+Описывает плату с типом слойности, материалом основания и физическим размером.
 """
 
 

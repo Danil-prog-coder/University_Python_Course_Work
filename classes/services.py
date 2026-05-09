@@ -1,6 +1,6 @@
 """
-Services class.
-Covers the two primary service offerings: prototyping and repair.
+Класс услуг.
+Охватывает два основных направления услуг: прототипирование и ремонт.
 """
 
 from typing import Optional

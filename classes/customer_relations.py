@@ -1,7 +1,7 @@
 """
-Customer relations class.
-Segments clients into three groups: hobbyists, service centers,
-and electronics manufacturers, each with their own service set.
+Класс работы с клиентами.
+Делит клиентов на три сегмента: радиолюбители, сервисные центры
+и производители электроники — каждый со своим набором услуг.
 """
 
 from typing import Optional

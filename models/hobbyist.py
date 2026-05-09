@@ -1,6 +1,6 @@
 """
-Hobbyist customer segment model.
-Describes services offered to radio amateurs: component selection assistance and device setup.
+Модель сегмента клиентов — радиолюбители.
+Описывает услуги для радиолюбителей: помощь в подборе компонентов и сборка/настройка устройств.
 """
 
 

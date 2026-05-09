@@ -1,6 +1,6 @@
 """
-Prototyping service model.
-Describes which prototyping sub-services are available: circuit design and prototype assembly.
+Модель услуги прототипирования.
+Описывает доступные подуслуги: разработка схем и сборка прототипа.
 """
 
 

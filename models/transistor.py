@@ -1,6 +1,6 @@
 """
-Transistor model.
-Represents a transistor with its type (NPN/PNP/MOSFET), maximum current, and voltage rating.
+Модель транзистора.
+Описывает транзистор с типом (NPN/PNP/MOSFET), максимальным током и напряжением.
 """
 
 

@@ -1,6 +1,6 @@
 """
-Service center customer segment model.
-Describes services offered to service centers: spare parts supply and urgent component delivery.
+Модель сегмента клиентов — сервисные центры.
+Описывает услуги для сервисных центров: поставка запчастей и срочная доставка компонентов.
 """
 
 

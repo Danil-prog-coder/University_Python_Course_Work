@@ -1,6 +1,6 @@
 """
-Measuring instrument model.
-Represents a measuring device (multimeter, oscilloscope) with accuracy and measurement range.
+Модель измерительного прибора.
+Описывает прибор (мультиметр, осциллограф) с точностью и диапазоном измерений.
 """
 
 

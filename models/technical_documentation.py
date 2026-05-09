@@ -1,6 +1,6 @@
 """
-Technical documentation service model.
-Describes available documentation services: circuit preparation and BOM creation.
+Модель услуги технической документации.
+Описывает доступные подуслуги: подготовка схем и создание спецификаций (BOM).
 """
 
 

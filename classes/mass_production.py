@@ -1,6 +1,6 @@
 """
-Mass production class.
-Represents serial manufacturing capabilities: board assembly and product testing.
+Класс серийного производства.
+Описывает возможности серийного производства: сборка плат и тестирование изделий.
 """
 
 

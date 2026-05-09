@@ -1,6 +1,6 @@
 """
-Soldering equipment model.
-Represents soldering tools (iron or station) with power and maximum heating temperature.
+Модель паяльного оборудования.
+Описывает паяльный инструмент (паяльник или станция) с мощностью и максимальной температурой нагрева.
 """
 
 

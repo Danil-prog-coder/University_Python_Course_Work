@@ -1,6 +1,6 @@
 """
-Connector model.
-Represents an electrical connector with its interface type, contact count, and mounting method.
+Модель разъёма.
+Описывает разъём с типом интерфейса, количеством контактов и способом монтажа.
 """
 
 

@@ -1,6 +1,6 @@
 """
-Resistor model.
-Represents a resistor component with resistance, power rating, and accuracy tolerance.
+Модель резистора.
+Описывает резистор с сопротивлением, мощностью и допуском точности.
 """
 
 

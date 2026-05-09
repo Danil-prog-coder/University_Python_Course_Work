@@ -1,7 +1,7 @@
 """
-Electronic components catalog class.
-Aggregates the five main component types: resistors, capacitors,
-integrated circuits, transistors, and diodes.
+Класс электронных компонентов.
+Объединяет пять основных типов компонентов: резисторы, конденсаторы,
+микросхемы, транзисторы и диоды.
 """
 
 from typing import Optional

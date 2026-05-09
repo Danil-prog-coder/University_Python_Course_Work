@@ -1,6 +1,6 @@
 """
-Hardware components class.
-Groups PCB boards and connectors as the two main hardware component categories.
+Класс комплектующих.
+Объединяет платы (PCB) и разъёмы как две основные категории комплектующих.
 """
 
 from typing import Optional

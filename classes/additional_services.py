@@ -1,6 +1,6 @@
 """
-Additional services class.
-Groups supplementary offerings: technical documentation and engineer consultations.
+Класс дополнительных услуг.
+Объединяет вспомогательные направления: техническая документация и консультации инженеров.
 """
 
 from typing import Optional
