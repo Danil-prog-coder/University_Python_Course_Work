@@ -1,3 +1,9 @@
+"""
+Measuring instrument model.
+Represents a measuring device (multimeter, oscilloscope) with accuracy and measurement range.
+"""
+
+
 class MeasuringInstrument:
     def __init__(self, type: str, accuracy: str, measurement_range: str):
         self._type = type  # "multimeter" | "oscilloscope"

@@ -1,3 +1,9 @@
+"""
+Connector model.
+Represents an electrical connector with its interface type, contact count, and mounting method.
+"""
+
+
 class Connector:
     def __init__(self, type: str, contact_count: int, mounting_method: str):
         self._type = type  # "USB" | "HDMI" | "pin header" | ...

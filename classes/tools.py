@@ -1,3 +1,8 @@
+"""
+Tools class.
+Groups soldering equipment and measuring instruments used in electronics work.
+"""
+
 from typing import Optional
 from models.soldering_equipment import SolderingEquipment
 from models.measuring_instrument import MeasuringInstrument

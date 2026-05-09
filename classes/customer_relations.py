@@ -1,3 +1,9 @@
+"""
+Customer relations class.
+Segments clients into three groups: hobbyists, service centers,
+and electronics manufacturers, each with their own service set.
+"""
+
 from typing import Optional
 from models.hobbyist import Hobbyist
 from models.service_center import ServiceCenter

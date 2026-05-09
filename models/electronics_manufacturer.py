@@ -1,3 +1,9 @@
+"""
+Electronics manufacturer customer segment model.
+Describes services offered to manufacturers: wholesale supply and contract assembly.
+"""
+
+
 class ElectronicsManufacturer:
     def __init__(self, wholesale_supply: bool, contract_assembly: bool):
         self._wholesale_supply = wholesale_supply

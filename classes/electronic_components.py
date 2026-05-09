@@ -1,3 +1,9 @@
+"""
+Electronic components catalog class.
+Aggregates the five main component types: resistors, capacitors,
+integrated circuits, transistors, and diodes.
+"""
+
 from typing import Optional
 from models.resistor import Resistor
 from models.capacitor import Capacitor

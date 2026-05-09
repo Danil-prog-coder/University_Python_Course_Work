@@ -1,3 +1,9 @@
+"""
+Service center customer segment model.
+Describes services offered to service centers: spare parts supply and urgent component delivery.
+"""
+
+
 class ServiceCenter:
     def __init__(self, spare_parts_supply: bool, urgent_component_delivery: bool):
         self._spare_parts_supply = spare_parts_supply

@@ -1,3 +1,9 @@
+"""
+Technical documentation service model.
+Describes available documentation services: circuit preparation and BOM creation.
+"""
+
+
 class TechnicalDocumentation:
     def __init__(self, circuit_preparation: bool, bom_creation: bool):
         self._circuit_preparation = circuit_preparation

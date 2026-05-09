@@ -1,3 +1,8 @@
+"""
+Services class.
+Covers the two primary service offerings: prototyping and repair.
+"""
+
 from typing import Optional
 from models.prototyping import Prototyping
 from models.repair import Repair

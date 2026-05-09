@@ -1,3 +1,9 @@
+"""
+Transistor model.
+Represents a transistor with its type (NPN/PNP/MOSFET), maximum current, and voltage rating.
+"""
+
+
 class Transistor:
     def __init__(self, type: str, max_current_a: float, voltage_v: float):
         self._type = type  # "NPN" | "PNP" | "MOSFET"

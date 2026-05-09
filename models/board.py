@@ -1,3 +1,9 @@
+"""
+PCB board model.
+Represents a printed circuit board with its layer type, base material, and physical size.
+"""
+
+
 class Board:
     def __init__(self, type: str, material: str, size: str):
         self._type = type  # "single-sided" | "multilayer"

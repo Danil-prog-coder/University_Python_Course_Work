@@ -1,3 +1,9 @@
+"""
+Soldering equipment model.
+Represents soldering tools (iron or station) with power and maximum heating temperature.
+"""
+
+
 class SolderingEquipment:
     def __init__(self, power_w: float, heating_temp_c: float, type: str):
         self._power_w = power_w

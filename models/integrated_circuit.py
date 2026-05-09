@@ -1,3 +1,9 @@
+"""
+Integrated circuit model.
+Represents an IC with its functional purpose, supply voltage, and package type.
+"""
+
+
 class IntegratedCircuit:
     def __init__(self, type_purpose: str, supply_voltage_v: float, package: str):
         self._type_purpose = type_purpose  # "logic" | "controller" | ...

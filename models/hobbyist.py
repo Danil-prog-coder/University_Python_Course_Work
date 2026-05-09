@@ -1,3 +1,9 @@
+"""
+Hobbyist customer segment model.
+Describes services offered to radio amateurs: component selection assistance and device setup.
+"""
+
+
 class Hobbyist:
     def __init__(self, component_selection_assistance: bool, device_assembly_setup: bool):
         self._component_selection_assistance = component_selection_assistance

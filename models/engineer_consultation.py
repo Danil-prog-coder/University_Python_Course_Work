@@ -1,3 +1,9 @@
+"""
+Engineer consultation service model.
+Describes available consultation services: component selection and circuit optimization.
+"""
+
+
 class EngineerConsultation:
     def __init__(self, component_selection: bool, circuit_optimization: bool):
         self._component_selection = component_selection

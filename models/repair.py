@@ -1,3 +1,9 @@
+"""
+Repair service model.
+Describes which repair sub-services are available: fault diagnosis and component replacement.
+"""
+
+
 class Repair:
     def __init__(self, fault_diagnosis: bool, component_replacement: bool):
         self._fault_diagnosis = fault_diagnosis

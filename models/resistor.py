@@ -1,3 +1,9 @@
+"""
+Resistor model.
+Represents a resistor component with resistance, power rating, and accuracy tolerance.
+"""
+
+
 class Resistor:
     def __init__(self, resistance_ohm: float, power_w: float, accuracy_percent: float):
         self._resistance_ohm = resistance_ohm

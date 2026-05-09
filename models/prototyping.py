@@ -1,3 +1,9 @@
+"""
+Prototyping service model.
+Describes which prototyping sub-services are available: circuit design and prototype assembly.
+"""
+
+
 class Prototyping:
     def __init__(self, circuit_design: bool, prototype_assembly: bool):
         self._circuit_design = circuit_design

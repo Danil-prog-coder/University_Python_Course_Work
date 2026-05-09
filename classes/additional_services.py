@@ -1,3 +1,8 @@
+"""
+Additional services class.
+Groups supplementary offerings: technical documentation and engineer consultations.
+"""
+
 from typing import Optional
 from models.technical_documentation import TechnicalDocumentation
 from models.engineer_consultation import EngineerConsultation

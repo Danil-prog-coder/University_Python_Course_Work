@@ -1,3 +1,9 @@
+"""
+Capacitor model.
+Represents a capacitor component with capacitance, working voltage, and dielectric type.
+"""
+
+
 class Capacitor:
     def __init__(self, capacitance_f: float, working_voltage_v: float, type: str):
         self._capacitance_f = capacitance_f

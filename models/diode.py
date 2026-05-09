@@ -1,3 +1,9 @@
+"""
+Diode model.
+Represents a diode (rectifier, zener, or LED) with forward voltage and maximum current.
+"""
+
+
 class Diode:
     def __init__(self, type: str, forward_voltage_v: float, max_current_a: float):
         self._type = type  # "rectifier" | "zener" | "LED"

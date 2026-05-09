@@ -1,3 +1,8 @@
+"""
+Hardware components class.
+Groups PCB boards and connectors as the two main hardware component categories.
+"""
+
 from typing import Optional
 from models.board import Board
 from models.connector import Connector

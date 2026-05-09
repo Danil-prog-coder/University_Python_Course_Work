@@ -1,3 +1,9 @@
+"""
+Mass production class.
+Represents serial manufacturing capabilities: board assembly and product testing.
+"""
+
+
 class MassProduction:
     def __init__(
         self,
