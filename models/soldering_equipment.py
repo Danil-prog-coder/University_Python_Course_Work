@@ -5,10 +5,11 @@
 
 
 class SolderingEquipment:
-    def __init__(self, power_w: float, heating_temp_c: float, type: str):
+    def __init__(self, power_w: float, heating_temp_c: float, type: str, price_rub: float):
         self._power_w = power_w
         self._heating_temp_c = heating_temp_c
         self._type = type  # "soldering iron" | "station"
+        self._price_rub = price_rub
 
     @property
     def power_w(self) -> float:
@@ -33,3 +34,11 @@ class SolderingEquipment:
     @type.setter
     def type(self, value: str):
         self._type = value
+
+    @property
+    def price_rub(self) -> float:
+        return self._price_rub
+
+    @price_rub.setter
+    def price_rub(self, value: float):
+        self._price_rub = value
