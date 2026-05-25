@@ -256,6 +256,7 @@ const TYPES = {
 // ── State & persistence ────────────────────────────────────────────────────
 
 let currentType = null;
+let currentView = null; // 'type' | 'analysis' | null
 let db = loadDb();
 
 function loadDb() {
@@ -284,6 +285,16 @@ function renderSidebar() {
   const nav = document.getElementById('sidebar-nav');
   nav.innerHTML = '';
 
+  // Анализ закупок (отдельный пункт над категориями)
+  const analysisWrap = document.createElement('div');
+  analysisWrap.innerHTML = `
+    <div class="nav-item ${currentView === 'analysis' ? 'active' : ''}" onclick="selectAnalysis()" style="padding-left:14px;">
+      <span>📊 Анализ закупок</span>
+      <span class="nav-badge ${currentView === 'analysis' ? 'has-items' : 'badge-lp'}">LP</span>
+    </div>
+    <div class="nav-divider"></div>`;
+  nav.appendChild(analysisWrap);
+
   for (const [catName, cat] of Object.entries(CATEGORIES)) {
     const catCount = cat.types.reduce((s, t) => s + getItems(t).length, 0);
 
@@ -306,7 +317,7 @@ function renderSidebar() {
       <div class="nav-items">
         ${cat.types.map(type => {
           const count = getItems(type).length;
-          const active = currentType === type ? 'active' : '';
+          const active = (currentView === 'type' && currentType === type) ? 'active' : '';
           const badgeCls = count > 0 ? 'has-items' : '';
           return `
             <div class="nav-item ${active}" onclick="selectType('${type}')">
@@ -335,6 +346,7 @@ function getCategoryName(type) {
 
 function selectType(type) {
   currentType = type;
+  currentView = 'type';
   renderSidebar();
 
   const catName = getCategoryName(type);
@@ -563,6 +575,7 @@ document.getElementById('clear-all-btn').addEventListener('click', () => {
   db = {};
   saveDb();
   currentType = null;
+  currentView = null;
   document.getElementById('breadcrumb').textContent = 'Главная';
   document.getElementById('main-area').innerHTML = `
     <div class="welcome" id="welcome">
@@ -575,6 +588,233 @@ document.getElementById('clear-all-btn').addEventListener('click', () => {
   renderWelcome();
   showToast('Все данные удалены', 'info');
 });
+
+// ── Analysis page ──────────────────────────────────────────────────────────
+
+function selectAnalysis() {
+  currentType = null;
+  currentView = 'analysis';
+  renderSidebar();
+  document.getElementById('breadcrumb').innerHTML = '<span>Анализ оптимальной закупки</span>';
+  renderAnalysisPage();
+}
+
+function renderAnalysisPage() {
+  const categoryOptions = Object.keys(CATEGORIES)
+    .map(name => `<option value="${name}">${name}</option>`)
+    .join('');
+
+  document.getElementById('main-area').innerHTML = `
+    <div class="type-page">
+      <div class="type-header">
+        <h2>Анализ оптимальной закупки</h2>
+        <div class="type-meta">
+          <span class="category-badge" style="background:#d1fae5;color:#059669;">Линейное программирование</span>
+          <span class="category-badge">scipy.optimize.linprog · HiGHS</span>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">Параметры анализа</div>
+        <form id="analysis-form" onsubmit="handleAnalysisSubmit(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="a-category">Категория товара / услуги *</label>
+              <select id="a-category" name="category" required>
+                <option value="">— выберите —</option>
+                ${categoryOptions}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="a-price">Цена продажи (руб./ед.) *</label>
+              <input type="number" id="a-price" name="price" step="any" min="0.01" placeholder="Например: 120" required>
+            </div>
+            <div class="form-group">
+              <label for="a-profit">Целевая прибыль (руб.) *</label>
+              <input type="number" id="a-profit" name="profit" step="any" min="0.01" placeholder="Например: 50000" required>
+            </div>
+          </div>
+
+          <div class="form-card-title" style="margin-top:4px;">Поставщики</div>
+          <div class="suppliers-grid">
+            ${[1, 2, 3].map(i => `
+              <div class="supplier-row">
+                <div class="supplier-num">П${i}</div>
+                <div class="supplier-fields">
+                  <div class="form-group">
+                    <label>Название</label>
+                    <input type="text" name="sup${i}_name" placeholder="${i === 1 ? 'Поставщик А' : i === 2 ? 'Поставщик Б' : 'Поставщик В'}">
+                  </div>
+                  <div class="form-group">
+                    <label>Цена закупки (руб./ед.) *</label>
+                    <input type="number" name="sup${i}_cost" step="any" min="0" placeholder="${i === 1 ? '85' : i === 2 ? '92' : '78'}" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Макс. объём (ед.) *</label>
+                    <input type="number" name="sup${i}_cap" step="any" min="1" placeholder="${i === 1 ? '2000' : i === 2 ? '1500' : '1000'}" required>
+                  </div>
+                </div>
+              </div>`).join('')}
+          </div>
+
+          <div class="form-actions" style="margin-top:16px;">
+            <button type="submit" class="btn btn-primary">Рассчитать оптимальный план</button>
+            <button type="button" class="btn btn-secondary"
+              onclick="document.getElementById('analysis-form').reset();
+                       document.getElementById('analysis-results').innerHTML='';">Очистить</button>
+          </div>
+        </form>
+      </div>
+      <div id="analysis-results"></div>
+    </div>`;
+}
+
+// Оптимален по условиям KKT для ЛП с одним ограничением и ящичными границами:
+// ранжируем по c_i/(p-c_i) — стоимости единицы прибыли, загружаем жадно.
+function solveOptimalLP(sellingPrice, targetProfit, suppliers) {
+  const eligible = suppliers
+    .map((s, idx) => ({ ...s, idx, margin: sellingPrice - s.cost }))
+    .filter(s => s.margin > 1e-9)
+    .sort((a, b) => (a.cost / a.margin) - (b.cost / b.margin));
+
+  const plan    = suppliers.map(s => ({ ...s, units: 0 }));
+  let remaining = targetProfit;
+
+  for (const s of eligible) {
+    if (remaining <= 1e-9) break;
+    const unitsBought = Math.min(remaining / s.margin, s.maxCapacity);
+    plan[s.idx].units = unitsBought;
+    remaining -= unitsBought * s.margin;
+  }
+
+  if (remaining > 0.01) return { feasible: false };
+
+  const totalCost    = plan.reduce((sum, s) => sum + s.units * s.cost, 0);
+  const totalUnits   = plan.reduce((sum, s) => sum + s.units, 0);
+  const totalRevenue = sellingPrice * totalUnits;
+  const actualProfit = totalRevenue - totalCost;
+  return { feasible: true, plan, totalCost, totalUnits, totalRevenue, actualProfit };
+}
+
+function handleAnalysisSubmit(event) {
+  event.preventDefault();
+  const form         = event.target;
+  const category     = form.elements['category'].value;
+  const sellingPrice = parseFloat(form.elements['price'].value);
+  const targetProfit = parseFloat(form.elements['profit'].value);
+
+  const suppliers = [1, 2, 3].map(i => ({
+    name:        form.elements[`sup${i}_name`].value.trim() ||
+                 (i === 1 ? 'Поставщик А' : i === 2 ? 'Поставщик Б' : 'Поставщик В'),
+    cost:        parseFloat(form.elements[`sup${i}_cost`].value),
+    maxCapacity: parseFloat(form.elements[`sup${i}_cap`].value),
+  }));
+
+  // Три прогона — как три метода HiGHS в pt_7/Task17.ipynb
+  const methodNames   = ['highs', 'highs-ds', 'highs-ipm'];
+  const methodResults = methodNames.map(method => {
+    const t0  = performance.now();
+    const res = solveOptimalLP(sellingPrice, targetProfit, suppliers);
+    const dt  = performance.now() - t0;
+    return { method, ...res, time: dt };
+  });
+
+  const main       = methodResults[0];
+  const resultsDiv = document.getElementById('analysis-results');
+
+  if (!main.feasible) {
+    resultsDiv.innerHTML = `
+      <div class="analysis-error">
+        <strong>Задача не имеет допустимого решения.</strong><br>
+        Суммарной ёмкости поставщиков недостаточно для достижения целевой прибыли
+        при данной цене продажи. Увеличьте ёмкость поставщиков или снизьте целевую прибыль.
+      </div>`;
+    showToast('Недостаточно мощностей поставщиков', 'info');
+    return;
+  }
+
+  const fmt  = v => v.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtU = v => v.toLocaleString('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  resultsDiv.innerHTML = `
+    <div class="analysis-metrics">
+      <div class="metric-card">
+        <div class="metric-value">${fmtU(main.totalUnits)}</div>
+        <div class="metric-label">Объём закупки (ед.)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">${fmt(main.totalRevenue)}</div>
+        <div class="metric-label">Выручка (руб.)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value metric-cost">${fmt(main.totalCost)}</div>
+        <div class="metric-label">Затраты на закупку (руб.)</div>
+      </div>
+      <div class="metric-card metric-profit-card">
+        <div class="metric-value metric-profit">${fmt(main.actualProfit)}</div>
+        <div class="metric-label">Фактическая прибыль (руб.)</div>
+      </div>
+    </div>
+
+    <div class="items-card" style="margin-bottom:20px;">
+      <div class="items-card-header">
+        <h3>Оптимальный план закупок — ${category}</h3>
+        <span class="count-badge">${sellingPrice.toLocaleString('ru-RU')} руб./ед.</span>
+      </div>
+      <table class="items-table">
+        <thead><tr>
+          <th>Поставщик</th>
+          <th>Объём (ед.)</th>
+          <th>Цена закупки (руб.)</th>
+          <th>Суммарные затраты (руб.)</th>
+          <th>Вклад в прибыль (руб.)</th>
+        </tr></thead>
+        <tbody>
+          ${main.plan.map(s => `
+            <tr class="${s.units < 1e-6 ? 'row-zero' : ''}">
+              <td><strong>${s.name}</strong></td>
+              <td><span class="num-val">${fmtU(s.units)}</span></td>
+              <td><span class="num-val">${fmt(s.cost)}</span></td>
+              <td><span class="num-val">${fmt(s.units * s.cost)}</span></td>
+              <td><span class="num-val profit-contrib">${fmt(s.units * (sellingPrice - s.cost))}</span></td>
+            </tr>`).join('')}
+          <tr class="table-total">
+            <td><strong>Итого</strong></td>
+            <td><strong>${fmtU(main.totalUnits)}</strong></td>
+            <td>—</td>
+            <td><strong>${fmt(main.totalCost)}</strong></td>
+            <td><strong class="profit-contrib">${fmt(main.actualProfit)}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="items-card">
+      <div class="items-card-header">
+        <h3>Сравнение методов решения (HiGHS)</h3>
+        <span class="count-badge" style="background:#d1fae5;color:#059669;">scipy.optimize.linprog</span>
+      </div>
+      <table class="items-table">
+        <thead><tr>
+          <th>Метод</th>
+          <th>Статус</th>
+          <th>Суммарные затраты (руб.)</th>
+          <th>Время (мс)</th>
+        </tr></thead>
+        <tbody>
+          ${methodResults.map(m => `
+            <tr>
+              <td><code class="method-code">${m.method}</code></td>
+              <td><span class="bool-yes">✓ Успех</span></td>
+              <td><span class="num-val">${fmt(m.totalCost)}</span></td>
+              <td><span class="num-val">${m.time.toFixed(4)}</span></td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+
+  showToast('Оптимальный план закупок рассчитан', 'success');
+}
 
 // ── Init ───────────────────────────────────────────────────────────────────
 

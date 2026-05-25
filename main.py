@@ -1,6 +1,7 @@
 """
 Точка входа — магазин электронных комплектующих.
-Демонстрирует создание объектов всех классов и вывод сводной информации.
+Демонстрирует создание объектов всех классов, вывод сводной информации
+и анализ оптимальной закупки методами линейного программирования.
 """
 
 from models import (
@@ -16,6 +17,7 @@ from classes import (
     Services, AdditionalServices,
     CustomerRelations, MassProduction,
 )
+from analysis import OptimalPurchaseAnalysis, Supplier
 
 
 def print_section(title: str) -> None:
@@ -122,6 +124,65 @@ def demo_mass_production() -> None:
     print(f"Сборка плат: {mp.board_assembly}, тестирование изделий: {mp.product_testing}")
 
 
+def demo_optimal_purchase() -> None:
+    print_section("Анализ оптимальной закупки (линейное программирование)")
+    print("Задача: минимизировать суммарные затраты, обеспечив целевую прибыль.")
+    print("Решатель: scipy.optimize.linprog (HiGHS) — методы highs, highs-ds, highs-ipm.")
+    print()
+    print("  min Z = sum(c_i * x_i)")
+    print("  s.t.  sum((p - c_i) * x_i) >= target_profit")
+    print("        0 <= x_i <= cap_i")
+    print()
+
+    suppliers = [
+        Supplier(name="Поставщик А", cost_per_unit=85.0,  max_capacity=2000),
+        Supplier(name="Поставщик Б", cost_per_unit=92.0,  max_capacity=1500),
+        Supplier(name="Поставщик В", cost_per_unit=78.0,  max_capacity=1000),
+    ]
+
+    result = OptimalPurchaseAnalysis(
+        category="Электронные компоненты",
+        selling_price=120.0,
+        target_profit=50_000.0,
+        suppliers=suppliers,
+    ).analyze()
+
+    if not result.success:
+        print("Задача не имеет допустимого решения.")
+        print("Суммарной ёмкости поставщиков недостаточно для достижения целевой прибыли.")
+        return
+
+    print(f"Категория:       {result.category}")
+    print(f"Цена продажи:    {result.selling_price:.2f} руб./ед.")
+    print(f"Целевая прибыль: {result.target_profit:,.2f} руб.")
+    print()
+
+    cw  = [16, 10, 10, 14, 14]
+    sep = "-" * (sum(cw) + len(cw) - 1)
+    print(f"{'Поставщик':<{cw[0]}} {'Объём':>{cw[1]}} {'Цена/ед.':>{cw[2]}} {'Затраты':>{cw[3]}} {'Прибыль':>{cw[4]}}")
+    print(sep)
+    for sp in result.supplier_plan:
+        print(f"{sp.name:<{cw[0]}} {sp.units:>{cw[1]}.1f} "
+              f"{sp.cost_per_unit:>{cw[2]}.2f} "
+              f"{sp.total_cost:>{cw[3]}.2f} "
+              f"{sp.contribution_to_profit:>{cw[4]}.2f}")
+    print(sep)
+    print(f"{'Итого':<{cw[0]}} {result.total_units:>{cw[1]}.1f} "
+          f"{'':>{cw[2]}} {result.total_cost:>{cw[3]}.2f} "
+          f"{result.actual_profit:>{cw[4]}.2f}")
+    print()
+    print(f"Выручка: {result.total_revenue:,.2f} руб.  "
+          f"|  Затраты: {result.total_cost:,.2f} руб.  "
+          f"|  Прибыль: {result.actual_profit:,.2f} руб.")
+    print()
+
+    print(f"{'Метод':<12} {'Статус':<10} {'Затраты, руб.':>16} {'Время, мс':>12}")
+    print("-" * 52)
+    for m in result.methods:
+        cost_str = f"{m.total_cost:,.2f}" if m.total_cost is not None else "—"
+        print(f"{m.method:<12} {'Успех' if m.success else 'Ошибка':<10} {cost_str:>16} {m.solve_time_ms:>12.4f}")
+
+
 def main() -> None:
     print("Магазин электронных комплектующих — демонстрация системы")
     demo_electronic_components()
@@ -131,6 +192,7 @@ def main() -> None:
     demo_additional_services()
     demo_customer_relations()
     demo_mass_production()
+    demo_optimal_purchase()
     print("\nГотово.")
 
 
