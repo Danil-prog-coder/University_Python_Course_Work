@@ -425,3 +425,104 @@ input:focus, select:focus {
 }
 
 .toast.hiding { animation: toast-out .2s ease forwards; }
+
+/* ── Analysis page ── */
+.badge-lp { background: rgba(16,185,129,.15) !important; color: #10b981 !important; }
+.nav-item.active .badge-lp { background: #059669 !important; color: white !important; }
+
+.nav-divider { height: 1px; background: rgba(255,255,255,.07); margin: 6px 14px; }
+
+.type-meta { flex-wrap: wrap; }
+
+.analysis-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.metric-cost   { color: #dc2626; }
+.metric-profit { color: #059669; }
+.metric-profit-card { border-color: #a7f3d0; background: #f0fdf4; }
+.metric-label  { font-size: 11px; color: var(--text-muted); line-height: 1.3; }
+
+.suppliers-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+
+.supplier-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.supplier-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 22px;
+}
+
+.supplier-fields {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.analysis-error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  color: #dc2626;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.row-zero td { color: #cbd5e1 !important; }
+.row-zero td strong { color: #94a3b8 !important; }
+.profit-contrib { color: #059669 !important; }
+.table-total td { font-weight: 600; background: var(--bg) !important; border-top: 2px solid var(--border); }
+
+.method-code {
+  font-family: monospace;
+  font-size: 12px;
+  background: #f1f5f9;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #334155;
+}
+
+@media (max-width: 640px) {
+  .supplier-fields { grid-template-columns: 1fr; }
+  .analysis-metrics { grid-template-columns: 1fr 1fr; }
+}
