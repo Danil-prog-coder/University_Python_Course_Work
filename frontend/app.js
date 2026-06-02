@@ -816,6 +816,54 @@ function handleAnalysisSubmit(event) {
   showToast('Оптимальный план закупок рассчитан', 'success');
 }
 
+// ── Import from file ──────────────────────────────────────────────────────
+
+const BACKEND_URL = 'http://localhost:5000';
+
+document.getElementById('import-btn').addEventListener('click', () => {
+  document.getElementById('import-file-input').click();
+});
+
+document.getElementById('import-file-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.value = '';
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  showToast('Загрузка файла…', 'info');
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/upload`, { method: 'POST', body: formData });
+    const json = await res.json();
+
+    if (!res.ok) {
+      showToast(json.error || 'Ошибка загрузки', 'error');
+      return;
+    }
+
+    for (const [type, items] of Object.entries(json.added || {})) {
+      for (const item of items) {
+        if (!db[type]) db[type] = [];
+        db[type].push(item);
+      }
+    }
+    saveDb();
+
+    if (currentType && json.added && json.added[currentType]) {
+      document.getElementById('items-body').innerHTML = renderItemsBody(currentType);
+      document.getElementById('count-badge').textContent = getItems(currentType).length;
+    }
+
+    renderSidebar();
+    renderWelcome();
+    showToast(json.message, 'success');
+  } catch {
+    showToast('Не удалось подключиться к серверу. Запустите server.py', 'error');
+  }
+});
+
 // ── Init ───────────────────────────────────────────────────────────────────
 
 renderSidebar();
