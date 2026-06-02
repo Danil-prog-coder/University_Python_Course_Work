@@ -2,7 +2,16 @@
 Точка входа — магазин электронных комплектующих.
 Демонстрирует создание объектов всех классов, вывод сводной информации
 и анализ оптимальной закупки методами линейного программирования.
+
+Использование:
+    python main.py                        # демо-данные
+    python main.py --file input.json      # данные из JSON-файла
 """
+
+import argparse
+import json
+import sys
+from pathlib import Path
 
 from models import (
     Resistor, Capacitor, IntegratedCircuit, Transistor, Diode,
@@ -124,7 +133,29 @@ def demo_mass_production() -> None:
     print(f"Сборка плат: {mp.board_assembly}, тестирование изделий: {mp.product_testing}")
 
 
-def demo_optimal_purchase() -> None:
+def load_purchase_data_from_file(path: str) -> dict:
+    """Загружает параметры закупки из JSON-файла."""
+    file = Path(path)
+    if not file.exists():
+        print(f"Ошибка: файл '{path}' не найден.", file=sys.stderr)
+        sys.exit(1)
+    try:
+        with file.open(encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        print(f"Ошибка разбора JSON: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    required = {"category", "selling_price", "target_profit", "suppliers"}
+    missing = required - data.keys()
+    if missing:
+        print(f"Ошибка: в файле отсутствуют поля: {', '.join(missing)}", file=sys.stderr)
+        sys.exit(1)
+
+    return data
+
+
+def demo_optimal_purchase(file_path: str | None = None) -> None:
     print_section("Анализ оптимальной закупки (линейное программирование)")
     print("Задача: минимизировать суммарные затраты, обеспечив целевую прибыль.")
     print("Решатель: scipy.optimize.linprog (HiGHS) — методы highs, highs-ds, highs-ipm.")
@@ -134,16 +165,35 @@ def demo_optimal_purchase() -> None:
     print("        0 <= x_i <= cap_i")
     print()
 
-    suppliers = [
-        Supplier(name="Поставщик А", cost_per_unit=85.0,  max_capacity=2000),
-        Supplier(name="Поставщик Б", cost_per_unit=92.0,  max_capacity=1500),
-        Supplier(name="Поставщик В", cost_per_unit=78.0,  max_capacity=1000),
-    ]
+    if file_path:
+        print(f"Источник данных: {file_path}")
+        data = load_purchase_data_from_file(file_path)
+        suppliers = [
+            Supplier(
+                name=s["name"],
+                cost_per_unit=float(s["cost_per_unit"]),
+                max_capacity=float(s["max_capacity"]),
+            )
+            for s in data["suppliers"]
+        ]
+        category      = data["category"]
+        selling_price = float(data["selling_price"])
+        target_profit = float(data["target_profit"])
+    else:
+        print("Источник данных: встроенные демо-данные")
+        suppliers = [
+            Supplier(name="Поставщик А", cost_per_unit=85.0,  max_capacity=2000),
+            Supplier(name="Поставщик Б", cost_per_unit=92.0,  max_capacity=1500),
+            Supplier(name="Поставщик В", cost_per_unit=78.0,  max_capacity=1000),
+        ]
+        category      = "Электронные компоненты"
+        selling_price = 120.0
+        target_profit = 50_000.0
 
     result = OptimalPurchaseAnalysis(
-        category="Электронные компоненты",
-        selling_price=120.0,
-        target_profit=50_000.0,
+        category=category,
+        selling_price=selling_price,
+        target_profit=target_profit,
         suppliers=suppliers,
     ).analyze()
 
@@ -183,7 +233,20 @@ def demo_optimal_purchase() -> None:
         print(f"{m.method:<12} {'Успех' if m.success else 'Ошибка':<10} {cost_str:>16} {m.solve_time_ms:>12.4f}")
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Магазин электронных комплектующих — демонстрация системы"
+    )
+    parser.add_argument(
+        "--file", "-f",
+        metavar="PATH",
+        help="JSON-файл с параметрами закупки (category, selling_price, target_profit, suppliers)",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
     print("Магазин электронных комплектующих — демонстрация системы")
     demo_electronic_components()
     demo_components()
@@ -192,7 +255,7 @@ def main() -> None:
     demo_additional_services()
     demo_customer_relations()
     demo_mass_production()
-    demo_optimal_purchase()
+    demo_optimal_purchase(file_path=args.file)
     print("\nГотово.")
 
 

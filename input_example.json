@@ -1,0 +1,10 @@
+{
+  "category": "Электронные компоненты",
+  "selling_price": 120.0,
+  "target_profit": 50000.0,
+  "suppliers": [
+    {"name": "Поставщик А", "cost_per_unit": 85.0, "max_capacity": 2000},
+    {"name": "Поставщик Б", "cost_per_unit": 92.0, "max_capacity": 1500},
+    {"name": "Поставщик В", "cost_per_unit": 78.0, "max_capacity": 1000}
+  ]
+}
