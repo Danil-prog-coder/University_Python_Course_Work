@@ -160,6 +160,22 @@ body {
 
 .btn-icon:hover { background: #fee2e2; border-color: #fca5a5; color: var(--danger); }
 
+.btn-import {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  height: 32px;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all .15s;
+  color: var(--text-muted);
+}
+.btn-import:hover { background: #eff6ff; border-color: #93c5fd; color: #2563eb; }
+
 .main-area { flex: 1; overflow-y: auto; padding: 24px; }
 
 /* ── Welcome ── */
