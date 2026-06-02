@@ -1,11 +1,19 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import json
 import os
 import time
 
-app = Flask(__name__, static_folder='frontend', static_url_path='')
-CORS(app)
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 DATA_FILE = 'data.json'
 
@@ -22,28 +30,24 @@ def save_data(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-@app.route('/')
+@app.get('/')
 def index():
-    return app.send_static_file('index.html')
+    return FileResponse('frontend/index.html')
 
 
-@app.route('/api/upload', methods=['POST'])
-def upload_file():
-    if 'file' not in request.files:
-        return jsonify({'error': 'Файл не найден'}), 400
-
-    file = request.files['file']
+@app.post('/api/upload')
+async def upload_file(file: UploadFile = File(...)):
     if not file.filename.lower().endswith('.json'):
-        return jsonify({'error': 'Поддерживаются только JSON файлы'}), 400
+        raise HTTPException(status_code=400, detail='Поддерживаются только JSON файлы')
 
     try:
-        content = file.read().decode('utf-8')
-        new_records = json.loads(content)
+        content = await file.read()
+        new_records = json.loads(content.decode('utf-8'))
     except Exception as e:
-        return jsonify({'error': f'Ошибка чтения файла: {str(e)}'}), 400
+        raise HTTPException(status_code=400, detail=f'Ошибка чтения файла: {str(e)}')
 
     if not isinstance(new_records, dict):
-        return jsonify({'error': 'Неверный формат. Ожидается объект вида {"тип": [...]}'}), 400
+        raise HTTPException(status_code=400, detail='Неверный формат. Ожидается объект вида {"тип": [...]}')
 
     data = load_data()
     added = {}
@@ -65,13 +69,17 @@ def upload_file():
 
     save_data(data)
     total = sum(len(v) for v in added.values())
-    return jsonify({'added': added, 'message': f'Добавлено записей: {total}'})
+    return {'added': added, 'message': f'Добавлено записей: {total}'}
 
 
-@app.route('/api/records', methods=['GET'])
+@app.get('/api/records')
 def get_records():
-    return jsonify(load_data())
+    return load_data()
+
+
+app.mount('/', StaticFiles(directory='frontend', html=True), name='frontend')
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=5000)

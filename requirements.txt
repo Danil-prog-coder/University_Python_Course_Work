@@ -1,4 +1,5 @@
 numpy
 scipy
-flask
-flask-cors
+fastapi
+uvicorn[standard]
+python-multipart
