@@ -5,10 +5,11 @@
 
 
 class Diode:
-    def __init__(self, type: str, forward_voltage_v: float, max_current_a: float):
+    def __init__(self, type: str, forward_voltage_v: float, max_current_a: float, price_rub: float):
         self._type = type  # "rectifier" | "zener" | "LED"
         self._forward_voltage_v = forward_voltage_v
         self._max_current_a = max_current_a
+        self._price_rub = price_rub
 
     @property
     def type(self) -> str:
@@ -33,3 +34,11 @@ class Diode:
     @max_current_a.setter
     def max_current_a(self, value: float):
         self._max_current_a = value
+
+    @property
+    def price_rub(self) -> float:
+        return self._price_rub
+
+    @price_rub.setter
+    def price_rub(self, value: float):
+        self._price_rub = value

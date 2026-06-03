@@ -5,9 +5,19 @@
 
 
 class ElectronicsManufacturer:
-    def __init__(self, wholesale_supply: bool, contract_assembly: bool):
+    def __init__(self, wholesale_supply: bool, contract_assembly: bool,
+                 min_order_rub: float):
+        self._min_order_rub = min_order_rub
         self._wholesale_supply = wholesale_supply
         self._contract_assembly = contract_assembly
+
+    @property
+    def min_order_rub(self) -> float:
+        return self._min_order_rub
+
+    @min_order_rub.setter
+    def min_order_rub(self, value: float):
+        self._min_order_rub = value
 
     @property
     def wholesale_supply(self) -> bool:

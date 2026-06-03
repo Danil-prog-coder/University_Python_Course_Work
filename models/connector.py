@@ -5,10 +5,11 @@
 
 
 class Connector:
-    def __init__(self, type: str, contact_count: int, mounting_method: str):
+    def __init__(self, type: str, contact_count: int, mounting_method: str, price_rub: float):
         self._type = type  # "USB" | "HDMI" | "pin header" | ...
         self._contact_count = contact_count
         self._mounting_method = mounting_method  # "SMD" | "through-hole"
+        self._price_rub = price_rub
 
     @property
     def type(self) -> str:
@@ -33,3 +34,11 @@ class Connector:
     @mounting_method.setter
     def mounting_method(self, value: str):
         self._mounting_method = value
+
+    @property
+    def price_rub(self) -> float:
+        return self._price_rub
+
+    @price_rub.setter
+    def price_rub(self, value: float):
+        self._price_rub = value

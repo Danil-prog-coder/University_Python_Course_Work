@@ -5,10 +5,12 @@
 
 
 class Board:
-    def __init__(self, type: str, material: str, size: str):
+    def __init__(self, type: str, material: str, size: str, size_mm: float, price_rub: float):
         self._type = type  # "single-sided" | "multilayer"
         self._material = material
         self._size = size
+        self._size_mm = size_mm
+        self._price_rub = price_rub
 
     @property
     def type(self) -> str:
@@ -33,3 +35,19 @@ class Board:
     @size.setter
     def size(self, value: str):
         self._size = value
+
+    @property
+    def size_mm(self) -> float:
+        return self._size_mm
+
+    @size_mm.setter
+    def size_mm(self, value: float):
+        self._size_mm = value
+
+    @property
+    def price_rub(self) -> float:
+        return self._price_rub
+
+    @price_rub.setter
+    def price_rub(self, value: float):
+        self._price_rub = value
