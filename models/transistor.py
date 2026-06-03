@@ -5,10 +5,11 @@
 
 
 class Transistor:
-    def __init__(self, type: str, max_current_a: float, voltage_v: float):
+    def __init__(self, type: str, max_current_a: float, voltage_v: float, price_rub: float):
         self._type = type  # "NPN" | "PNP" | "MOSFET"
         self._max_current_a = max_current_a
         self._voltage_v = voltage_v
+        self._price_rub = price_rub
 
     @property
     def type(self) -> str:
@@ -33,3 +34,11 @@ class Transistor:
     @voltage_v.setter
     def voltage_v(self, value: float):
         self._voltage_v = value
+
+    @property
+    def price_rub(self) -> float:
+        return self._price_rub
+
+    @price_rub.setter
+    def price_rub(self, value: float):
+        self._price_rub = value

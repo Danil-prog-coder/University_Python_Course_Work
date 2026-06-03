@@ -542,3 +542,118 @@ input:focus, select:focus {
   .supplier-fields { grid-template-columns: 1fr; }
   .analysis-metrics { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── KTU Charts ──────────────────────────────────────────────────────────── */
+.ktu-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.ktu-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.ktu-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #c7d2fe;
+  background: #fff;
+  color: #4338ca;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.ktu-tab:hover { background: #eef2ff; }
+.ktu-tab.active { background: #4338ca; color: #fff; border-color: #4338ca; }
+.ktu-toggle { display: flex; gap: 6px; }
+.ktu-type-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #475569;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.ktu-type-btn:hover { background: #f1f5f9; }
+.ktu-type-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+.ktu-charts-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 20px;
+}
+.ktu-chart-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.ktu-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.ktu-ref-note { font-size: 11px; color: #94a3b8; }
+.ktu-summary { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.ktu-t-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.ktu-t-good { background: #dcfce7; color: #166534; }
+.ktu-t-low  { background: #fee2e2; color: #991b1b; }
+.ktu-canvas-wrap { position: relative; height: 300px; }
+.ktu-canvas-wrap canvas { max-height: 300px; }
+.ktu-no-data {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+  font-size: 13px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #e2e8f0;
+}
+
+/* ── KTU Reference Table ─────────────────────────────────────────────────── */
+.ktu-ref-table-wrap {
+  margin-bottom: 12px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.ktu-ref-table-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 6px;
+}
+.ktu-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.ktu-ref-table thead th {
+  text-align: left;
+  color: #78350f;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-bottom: 1px solid #fde68a;
+}
+.ktu-tbl-label { color: #374151; padding: 3px 6px; }
+.ktu-tbl-ref   { font-weight: 700; color: #b45309; padding: 3px 6px; }
+.ktu-tbl-w     { color: #6b7280; padding: 3px 6px; }
+.ktu-inv       { font-size: 10px; color: #9ca3af; }
+
+.ktu-no-data-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #94a3b8;
+  text-align: center;
+  padding: 6px;
+}

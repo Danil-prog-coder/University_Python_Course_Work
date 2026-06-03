@@ -5,9 +5,19 @@
 
 
 class Hobbyist:
-    def __init__(self, component_selection_assistance: bool, device_assembly_setup: bool):
+    def __init__(self, component_selection_assistance: bool, device_assembly_setup: bool,
+                 min_order_rub: float):
+        self._min_order_rub = min_order_rub
         self._component_selection_assistance = component_selection_assistance
         self._device_assembly_setup = device_assembly_setup
+
+    @property
+    def min_order_rub(self) -> float:
+        return self._min_order_rub
+
+    @min_order_rub.setter
+    def min_order_rub(self, value: float):
+        self._min_order_rub = value
 
     @property
     def component_selection_assistance(self) -> bool:
