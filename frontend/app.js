@@ -834,6 +834,27 @@ function renderKTUCharts() {
     const refLabel = getKTURefLabel(typeKey);
     const labels   = spec.map(f => f.label);
 
+    // Reference values table rows
+    const refTableRows = spec.map(f => {
+      const refVal = f.ref < 0.001 ? f.ref.toExponential(2) : f.ref;
+      const invMark = f.inverse ? '<span class="ktu-inv">↓ меньше = лучше</span>' : '';
+      return `<tr>
+        <td class="ktu-tbl-label">${f.label}</td>
+        <td class="ktu-tbl-ref">${refVal}</td>
+        <td class="ktu-tbl-w">${(f.weight * 100).toFixed(0)}%</td>
+        <td>${invMark}</td>
+      </tr>`;
+    }).join('');
+
+    const refTableHTML = `
+      <div class="ktu-ref-table-wrap">
+        <div class="ktu-ref-table-title">📋 Эталонные значения</div>
+        <table class="ktu-ref-table">
+          <thead><tr><th>Показатель</th><th>Эталон</th><th>Вес</th><th></th></tr></thead>
+          <tbody>${refTableRows}</tbody>
+        </table>
+      </div>`;
+
     let bodyHTML;
     if (items.length === 0) {
       bodyHTML = `<div class="ktu-no-data">Нет данных — добавьте записи в раздел «${typeDef ? typeDef.label : typeKey}»</div>`;
@@ -853,8 +874,8 @@ function renderKTUCharts() {
     card.innerHTML = `
       <div class="ktu-card-header">
         <strong>${typeDef ? typeDef.label : typeKey}</strong>
-        <span class="ktu-ref-note">Эталон: ${refLabel}</span>
       </div>
+      ${refTableHTML}
       ${summaryRows ? `<div class="ktu-summary">${summaryRows}</div>` : ''}
       ${bodyHTML}`;
 
@@ -870,25 +891,27 @@ function renderKTUCharts() {
 
       const datasets = [];
 
-      // Reference dataset (all 1.0)
+      // Reference dataset (all 1.0 — эталон по определению)
       const refData = labels.map(() => 1.0);
       if (currentKTUChartType === 'radar') {
         datasets.push({
-          label: 'Эталон',
-          data: [...refData, refData[0]],
-          borderColor: '#94a3b8',
-          borderDash: [5, 5],
-          borderWidth: 1.5,
-          backgroundColor: 'rgba(148,163,184,0.08)',
-          pointRadius: 3,
+          label: 'Эталон (q = 1.0)',
+          data: refData,
+          borderColor: '#f59e0b',
+          borderWidth: 2.5,
+          backgroundColor: 'rgba(245,158,11,0.10)',
+          pointRadius: 4,
+          pointBackgroundColor: '#f59e0b',
+          borderDash: [6, 3],
         });
       } else {
         datasets.push({
-          label: 'Эталон',
+          label: 'Эталон (q = 1.0)',
           data: refData,
-          backgroundColor: 'rgba(148,163,184,0.35)',
-          borderColor: '#64748b',
-          borderWidth: 1,
+          backgroundColor: 'rgba(245,158,11,0.25)',
+          borderColor: '#f59e0b',
+          borderWidth: 2,
+          borderRadius: 3,
         });
       }
 
@@ -903,7 +926,7 @@ function renderKTUCharts() {
         if (currentKTUChartType === 'radar') {
           datasets.push({
             label: `${name} (T=${ktu.totalT.toFixed(2)})`,
-            data: [...qVals, qVals[0]],
+            data: qVals,
             borderColor: color,
             backgroundColor: color + '22',
             borderWidth: 2,
