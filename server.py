@@ -37,8 +37,8 @@ def index():
 
 @app.post('/api/upload')
 async def upload_file(file: UploadFile = File(...)):
-    if not file.filename.lower().endswith('.json'):
-        raise HTTPException(status_code=400, detail='Поддерживаются только JSON файлы')
+    if not file.filename.lower().endswith(('.json', '.txt')):
+        raise HTTPException(status_code=400, detail='Поддерживаются файлы .json и .txt')
 
     try:
         content = await file.read()
