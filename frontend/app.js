@@ -759,6 +759,238 @@ function selectAnalysis() {
   renderAnalysisPage();
 }
 
+function selectKTU() {
+  currentType = null;
+  currentView = 'ktu';
+  currentKTUCategory = Object.keys(KTU_CATEGORIES)[0];
+  renderSidebar();
+  document.getElementById('breadcrumb').innerHTML = '<span>Диаграммы КТУ</span>';
+  renderKTUPage();
+}
+
+function renderKTUPage() {
+  destroyKTUCharts();
+  const catNames = Object.keys(KTU_CATEGORIES);
+
+  const tabsHTML = catNames.map(name => `
+    <button class="ktu-tab ${name === currentKTUCategory ? 'active' : ''}"
+            onclick="switchKTUCategory('${name}')">${name}</button>
+  `).join('');
+
+  document.getElementById('main-area').innerHTML = `
+    <div class="type-page">
+      <div class="type-header">
+        <h2>Диаграммы КТУ</h2>
+        <div class="type-meta">
+          <span class="category-badge" style="background:#e0e7ff;color:#4338ca;">Коэффициент технического уровня</span>
+          <span class="category-badge">Эталон: q = 1.0</span>
+        </div>
+      </div>
+
+      <div class="ktu-controls">
+        <div class="ktu-tabs">${tabsHTML}</div>
+        <div class="ktu-toggle">
+          <button id="btn-radar" class="ktu-type-btn ${currentKTUChartType==='radar'?'active':''}"
+                  onclick="switchKTUChartType('radar')">🕸 Радарная</button>
+          <button id="btn-bar"   class="ktu-type-btn ${currentKTUChartType==='bar'?'active':''}"
+                  onclick="switchKTUChartType('bar')">📊 Столбчатая</button>
+        </div>
+      </div>
+
+      <div id="ktu-charts-area" class="ktu-charts-area"></div>
+    </div>`;
+
+  renderKTUCharts();
+}
+
+function switchKTUCategory(name) {
+  currentKTUCategory = name;
+  renderKTUPage();
+}
+
+function switchKTUChartType(type) {
+  currentKTUChartType = type;
+  renderKTUPage();
+}
+
+function renderKTUCharts() {
+  const area = document.getElementById('ktu-charts-area');
+  if (!area) return;
+  area.innerHTML = '';
+
+  const types = KTU_CATEGORIES[currentKTUCategory] || [];
+
+  types.forEach(typeKey => {
+    const spec  = KTU_REFERENCE[typeKey];
+    if (!spec) return;
+
+    const typeDef = TYPES[typeKey];
+    const items   = getItems(typeKey);
+
+    // Build card
+    const card = document.createElement('div');
+    card.className = 'ktu-chart-card';
+
+    const refLabel = getKTURefLabel(typeKey);
+    const labels   = spec.map(f => f.label);
+
+    let bodyHTML;
+    if (items.length === 0) {
+      bodyHTML = `<div class="ktu-no-data">Нет данных — добавьте записи в раздел «${typeDef ? typeDef.label : typeKey}»</div>`;
+    } else {
+      bodyHTML = `<div class="ktu-canvas-wrap"><canvas id="ktu-canvas-${typeKey}"></canvas></div>`;
+    }
+
+    // T values summary
+    const summaryRows = items.map((item, i) => {
+      const ktu = computeKTU(item, typeKey);
+      if (!ktu) return '';
+      const name = item.name || `Запись ${i+1}`;
+      const cls  = ktu.totalT >= 1 ? 'ktu-t-good' : 'ktu-t-low';
+      return `<span class="ktu-t-badge ${cls}">${name}: T = ${ktu.totalT.toFixed(3)}</span>`;
+    }).join('');
+
+    card.innerHTML = `
+      <div class="ktu-card-header">
+        <strong>${typeDef ? typeDef.label : typeKey}</strong>
+        <span class="ktu-ref-note">Эталон: ${refLabel}</span>
+      </div>
+      ${summaryRows ? `<div class="ktu-summary">${summaryRows}</div>` : ''}
+      ${bodyHTML}`;
+
+    area.appendChild(card);
+
+    if (items.length === 0) return;
+
+    // Build Chart.js datasets
+    const canvasId = `ktu-canvas-${typeKey}`;
+    requestAnimationFrame(() => {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+
+      const datasets = [];
+
+      // Reference dataset (all 1.0)
+      const refData = labels.map(() => 1.0);
+      if (currentKTUChartType === 'radar') {
+        datasets.push({
+          label: 'Эталон',
+          data: [...refData, refData[0]],
+          borderColor: '#94a3b8',
+          borderDash: [5, 5],
+          borderWidth: 1.5,
+          backgroundColor: 'rgba(148,163,184,0.08)',
+          pointRadius: 3,
+        });
+      } else {
+        datasets.push({
+          label: 'Эталон',
+          data: refData,
+          backgroundColor: 'rgba(148,163,184,0.35)',
+          borderColor: '#64748b',
+          borderWidth: 1,
+        });
+      }
+
+      // Item datasets
+      items.forEach((item, i) => {
+        const ktu   = computeKTU(item, typeKey);
+        if (!ktu) return;
+        const qVals = ktu.indicators.map(ind => parseFloat(ind.q.toFixed(3)));
+        const color = KTU_COLORS[i % KTU_COLORS.length];
+        const name  = item.name || `Запись ${i+1}`;
+
+        if (currentKTUChartType === 'radar') {
+          datasets.push({
+            label: `${name} (T=${ktu.totalT.toFixed(2)})`,
+            data: [...qVals, qVals[0]],
+            borderColor: color,
+            backgroundColor: color + '22',
+            borderWidth: 2,
+            pointRadius: 3,
+          });
+        } else {
+          datasets.push({
+            label: `${name} (T=${ktu.totalT.toFixed(2)})`,
+            data: qVals,
+            backgroundColor: color + 'cc',
+            borderColor: color,
+            borderWidth: 1,
+            borderRadius: 3,
+          });
+        }
+      });
+
+      let chart;
+      if (currentKTUChartType === 'radar') {
+        chart = new Chart(canvas, {
+          type: 'radar',
+          data: { labels: labels, datasets },
+          options: {
+            responsive: true,
+            scales: {
+              r: {
+                beginAtZero: true,
+                ticks: { stepSize: 0.5, font: { size: 10 } },
+                pointLabels: { font: { size: 11 } },
+              }
+            },
+            plugins: {
+              legend: { position: 'bottom', labels: { font: { size: 11 } } },
+              title: { display: false },
+            },
+          },
+        });
+      } else {
+        chart = new Chart(canvas, {
+          type: 'bar',
+          data: { labels, datasets },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'bottom', labels: { font: { size: 11 } } },
+              annotation: {},
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { font: { size: 10 } },
+              },
+              x: {
+                ticks: { font: { size: 10 } },
+              },
+            },
+          },
+        });
+      }
+
+      ktuCharts[typeKey] = chart;
+    });
+  });
+}
+
+function getKTURefLabel(typeKey) {
+  const refs = {
+    resistors:             'MLT-0.25 (0.25 Вт, ±5%, 5 руб.)',
+    capacitors:            '0.1 мкФ × 50 В (3 руб.)',
+    integrated_circuits:   'NE555 (5 В, 15 руб.)',
+    transistors:           'КТ315Б (0.1 А, 40 В, 5 руб.)',
+    diodes:                '1N4148 (0.3 А, 0.7 В, 3 руб.)',
+    boards:                'FR4 70×50 мм (3500 мм², 40 руб.)',
+    connectors:            'Pin header 40 конт. (15 руб.)',
+    soldering_equipment:   'ЕПСН-25 (25 Вт, 300 °C, 350 руб.)',
+    measuring_instruments: 'DT-830B (±1%, 500 руб.)',
+    prototyping:           '5000 руб., 7 дней',
+    repair:                '1500 руб., 3 дня',
+    technical_documentation: '3000 руб., 5 дней',
+    engineer_consultation: '1000 руб., 1 день',
+    hobbyists:             'Мин. 500 руб.',
+    service_centers:       'Мин. 2000 руб.',
+    electronics_manufacturers: 'Мин. 10 000 руб.',
+  };
+  return refs[typeKey] || '—';
+}
+
 function renderAnalysisPage() {
   const categoryOptions = Object.keys(CATEGORIES)
     .map(name => `<option value="${name}">${name}</option>`)
