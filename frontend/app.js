@@ -39,6 +39,7 @@ const TYPES = {
       { key: 'resistance_ohm',   label: 'Сопротивление (Ом)', type: 'number', step: 'any', required: true },
       { key: 'power_w',          label: 'Мощность (Вт)',      type: 'number', step: 'any', required: true },
       { key: 'accuracy_percent', label: 'Точность (%)',       type: 'number', step: 'any', required: true },
+      { key: 'price_rub',        label: 'Цена (руб)',         type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -54,6 +55,7 @@ const TYPES = {
           { value: 'electrolytic', label: 'Электролитический' },
         ],
       },
+      { key: 'price_rub', label: 'Цена (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -77,6 +79,7 @@ const TYPES = {
           { value: 'SMD', label: 'SMD' },
         ],
       },
+      { key: 'price_rub', label: 'Цена (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -93,6 +96,7 @@ const TYPES = {
       },
       { key: 'max_current_a', label: 'Макс. ток (А)',   type: 'number', step: 'any', required: true },
       { key: 'voltage_v',     label: 'Напряжение (В)',  type: 'number', step: 'any', required: true },
+      { key: 'price_rub',     label: 'Цена (руб)',      type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -109,6 +113,7 @@ const TYPES = {
       },
       { key: 'forward_voltage_v', label: 'Прямое напряжение (В)', type: 'number', step: 'any', required: true },
       { key: 'max_current_a',     label: 'Макс. ток (А)',        type: 'number', step: 'any', required: true },
+      { key: 'price_rub',         label: 'Цена (руб)',            type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -124,6 +129,8 @@ const TYPES = {
       },
       { key: 'material', label: 'Материал', type: 'text', placeholder: 'Например: FR4', required: true },
       { key: 'size',     label: 'Размер',   type: 'text', placeholder: 'Например: 100×80 мм', required: true },
+      { key: 'size_mm',  label: 'Площадь (мм²)', type: 'number', step: 'any', placeholder: 'Например: 3500' },
+      { key: 'price_rub', label: 'Цена (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -147,6 +154,7 @@ const TYPES = {
           { value: 'through-hole', label: 'Сквозной (through-hole)' },
         ],
       },
+      { key: 'price_rub', label: 'Цена (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -162,6 +170,7 @@ const TYPES = {
           { value: 'station',        label: 'Паяльная станция' },
         ],
       },
+      { key: 'price_rub', label: 'Цена (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -177,6 +186,9 @@ const TYPES = {
       },
       { key: 'accuracy',          label: 'Точность',           type: 'text', placeholder: 'Например: ±0.5%',   required: true },
       { key: 'measurement_range', label: 'Диапазон измерений', type: 'text', placeholder: 'Например: 0–1000 В', required: true },
+      { key: 'accuracy_percent', label: 'Точность числовая (%)', type: 'number', step: 'any', placeholder: 'Например: 0.5' },
+      { key: 'range_value',      label: 'Диапазон числовой',     type: 'number', step: 'any', placeholder: 'Например: 600' },
+      { key: 'price_rub',        label: 'Цена (руб)',            type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -186,6 +198,8 @@ const TYPES = {
       { key: 'name',               label: 'Название / Описание',  type: 'text', placeholder: 'Например: Прототип Arduino' },
       { key: 'circuit_design',     label: 'Проектирование схем',  type: 'checkbox' },
       { key: 'prototype_assembly', label: 'Сборка прототипа',     type: 'checkbox' },
+      { key: 'service_price_rub',  label: 'Цена услуги (руб)',    type: 'number', step: 'any', required: false },
+      { key: 'avg_execution_days', label: 'Срок выполнения (дней)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -195,6 +209,8 @@ const TYPES = {
       { key: 'name',                  label: 'Название / Описание',        type: 'text', placeholder: 'Например: Ремонт БП ATX' },
       { key: 'fault_diagnosis',       label: 'Диагностика неисправностей', type: 'checkbox' },
       { key: 'component_replacement', label: 'Замена компонентов',         type: 'checkbox' },
+      { key: 'service_price_rub',     label: 'Цена услуги (руб)',          type: 'number', step: 'any', required: false },
+      { key: 'avg_execution_days',    label: 'Срок выполнения (дней)',      type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -204,6 +220,8 @@ const TYPES = {
       { key: 'name',              label: 'Название проекта',           type: 'text', placeholder: 'Например: Документация v2.0' },
       { key: 'circuit_preparation', label: 'Подготовка принципиальных схем', type: 'checkbox' },
       { key: 'bom_creation',      label: 'Создание перечня компонентов (BOM)', type: 'checkbox' },
+      { key: 'service_price_rub',   label: 'Цена услуги (руб)',    type: 'number', step: 'any', required: false },
+      { key: 'avg_execution_days',  label: 'Срок выполнения (дней)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -213,6 +231,8 @@ const TYPES = {
       { key: 'name',                label: 'Название / Описание',    type: 'text', placeholder: 'Например: Консультация по МК' },
       { key: 'component_selection', label: 'Подбор компонентов',     type: 'checkbox' },
       { key: 'circuit_optimization', label: 'Оптимизация схем',      type: 'checkbox' },
+      { key: 'service_price_rub',    label: 'Цена услуги (руб)',     type: 'number', step: 'any', required: false },
+      { key: 'avg_execution_days',   label: 'Срок выполнения (дней)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -231,6 +251,7 @@ const TYPES = {
       { key: 'name',                        label: 'Имя клиента',                   type: 'text', placeholder: 'Например: Иван Петров', required: true },
       { key: 'component_selection_assistance', label: 'Помощь в выборе компонентов', type: 'checkbox' },
       { key: 'device_assembly_setup',       label: 'Сборка и настройка устройств', type: 'checkbox' },
+      { key: 'min_order_rub', label: 'Мин. сумма заказа (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -240,6 +261,7 @@ const TYPES = {
       { key: 'name',                      label: 'Название центра',               type: 'text', placeholder: 'Например: СЦ «ТехПомощь»', required: true },
       { key: 'spare_parts_supply',        label: 'Поставка запчастей',            type: 'checkbox' },
       { key: 'urgent_component_delivery', label: 'Срочная доставка компонентов',  type: 'checkbox' },
+      { key: 'min_order_rub', label: 'Мин. сумма заказа (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 
@@ -249,9 +271,143 @@ const TYPES = {
       { key: 'name',              label: 'Название компании',    type: 'text', placeholder: 'Например: ООО «ЭлектроПром»', required: true },
       { key: 'wholesale_supply',  label: 'Оптовые поставки',     type: 'checkbox' },
       { key: 'contract_assembly', label: 'Контрактная сборка',   type: 'checkbox' },
+      { key: 'min_order_rub', label: 'Мин. сумма заказа (руб)', type: 'number', step: 'any', required: false },
     ],
   },
 };
+
+// ── KTU (Technical Level) ──────────────────────────────────────────────────
+
+const KTU_REFERENCE = {
+  resistors: [
+    { key: 'power_w',          label: 'Мощность (Вт)',  ref: 0.25, inverse: false, weight: 0.35 },
+    { key: 'accuracy_percent', label: 'Точность (%)',   ref: 5.0,  inverse: true,  weight: 0.35 },
+    { key: 'price_rub',        label: 'Цена (руб)',     ref: 5.0,  inverse: true,  weight: 0.30 },
+  ],
+  capacitors: [
+    { key: 'working_voltage_v', label: 'Напряжение (В)', ref: 50.0,    inverse: false, weight: 0.45 },
+    { key: 'capacitance_f',     label: 'Ёмкость (Ф)',    ref: 0.0000001, inverse: false, weight: 0.25 },
+    { key: 'price_rub',         label: 'Цена (руб)',     ref: 3.0,     inverse: true,  weight: 0.30 },
+  ],
+  integrated_circuits: [
+    { key: 'supply_voltage_v', label: 'Напряжение пит. (В)', ref: 5.0,  inverse: false, weight: 0.40 },
+    { key: 'price_rub',        label: 'Цена (руб)',          ref: 15.0, inverse: true,  weight: 0.60 },
+  ],
+  transistors: [
+    { key: 'max_current_a', label: 'Макс. ток (А)',  ref: 0.1,  inverse: false, weight: 0.35 },
+    { key: 'voltage_v',     label: 'Напряжение (В)', ref: 40.0, inverse: false, weight: 0.35 },
+    { key: 'price_rub',     label: 'Цена (руб)',     ref: 5.0,  inverse: true,  weight: 0.30 },
+  ],
+  diodes: [
+    { key: 'max_current_a',     label: 'Макс. ток (А)',     ref: 0.3, inverse: false, weight: 0.35 },
+    { key: 'forward_voltage_v', label: 'Прямое напр. (В)',  ref: 0.7, inverse: true,  weight: 0.35 },
+    { key: 'price_rub',         label: 'Цена (руб)',        ref: 3.0, inverse: true,  weight: 0.30 },
+  ],
+  boards: [
+    { key: 'size_mm',    label: 'Площадь (мм²)',  ref: 3500.0, inverse: false, weight: 0.35, derived: 'size_mm' },
+    { key: 'layer_type', label: 'Многослойность', ref: 1.0,    inverse: false, weight: 0.35, derived: 'layer_type' },
+    { key: 'price_rub',  label: 'Цена (руб)',     ref: 40.0,   inverse: true,  weight: 0.30 },
+  ],
+  connectors: [
+    { key: 'contact_count', label: 'Контакты (шт)',     ref: 40.0, inverse: false, weight: 0.40 },
+    { key: 'mount_th',      label: 'Сквозной монтаж',  ref: 1.0,  inverse: false, weight: 0.30, derived: 'mount_th' },
+    { key: 'price_rub',     label: 'Цена (руб)',        ref: 15.0, inverse: true,  weight: 0.30 },
+  ],
+  soldering_equipment: [
+    { key: 'power_w',        label: 'Мощность (Вт)',    ref: 25.0,  inverse: false, weight: 0.30 },
+    { key: 'heating_temp_c', label: 'Температура (°C)', ref: 300.0, inverse: false, weight: 0.30 },
+    { key: 'price_rub',      label: 'Цена (руб)',       ref: 350.0, inverse: true,  weight: 0.40 },
+  ],
+  measuring_instruments: [
+    { key: 'accuracy_percent', label: 'Точность (%)', ref: 1.0,   inverse: true,  weight: 0.40 },
+    { key: 'range_value',      label: 'Диапазон',     ref: 600.0, inverse: false, weight: 0.30 },
+    { key: 'price_rub',        label: 'Цена (руб)',   ref: 500.0, inverse: true,  weight: 0.30 },
+  ],
+  prototyping: [
+    { key: 'service_price_rub',  label: 'Цена услуги (руб)', ref: 5000.0, inverse: true,  weight: 0.35 },
+    { key: 'avg_execution_days', label: 'Срок (дней)',       ref: 7.0,    inverse: true,  weight: 0.25 },
+    { key: 'circuit_design',     label: 'Разработка схем',   ref: 1.0,    inverse: false, weight: 0.20 },
+    { key: 'prototype_assembly', label: 'Сборка прототипа',  ref: 1.0,    inverse: false, weight: 0.20 },
+  ],
+  repair: [
+    { key: 'service_price_rub',     label: 'Цена услуги (руб)',  ref: 1500.0, inverse: true,  weight: 0.30 },
+    { key: 'avg_execution_days',    label: 'Срок (дней)',        ref: 3.0,    inverse: true,  weight: 0.30 },
+    { key: 'fault_diagnosis',       label: 'Диагностика',        ref: 1.0,    inverse: false, weight: 0.20 },
+    { key: 'component_replacement', label: 'Замена компонентов', ref: 1.0,    inverse: false, weight: 0.20 },
+  ],
+  technical_documentation: [
+    { key: 'service_price_rub',   label: 'Цена услуги (руб)', ref: 3000.0, inverse: true,  weight: 0.30 },
+    { key: 'avg_execution_days',  label: 'Срок (дней)',       ref: 5.0,    inverse: true,  weight: 0.30 },
+    { key: 'circuit_preparation', label: 'Подготовка схем',   ref: 1.0,    inverse: false, weight: 0.20 },
+    { key: 'bom_creation',        label: 'Создание BOM',      ref: 1.0,    inverse: false, weight: 0.20 },
+  ],
+  engineer_consultation: [
+    { key: 'service_price_rub',    label: 'Цена услуги (руб)',   ref: 1000.0, inverse: true,  weight: 0.30 },
+    { key: 'avg_execution_days',   label: 'Срок (дней)',         ref: 1.0,    inverse: true,  weight: 0.25 },
+    { key: 'component_selection',  label: 'Подбор компонентов',  ref: 1.0,    inverse: false, weight: 0.25 },
+    { key: 'circuit_optimization', label: 'Оптимизация схем',    ref: 1.0,    inverse: false, weight: 0.20 },
+  ],
+  hobbyists: [
+    { key: 'min_order_rub',                  label: 'Мин. заказ (руб)',   ref: 500.0, inverse: true,  weight: 0.40 },
+    { key: 'component_selection_assistance', label: 'Подбор компонентов', ref: 1.0,   inverse: false, weight: 0.30 },
+    { key: 'device_assembly_setup',          label: 'Сборка/настройка',   ref: 1.0,   inverse: false, weight: 0.30 },
+  ],
+  service_centers: [
+    { key: 'min_order_rub',             label: 'Мин. заказ (руб)',   ref: 2000.0, inverse: true,  weight: 0.40 },
+    { key: 'spare_parts_supply',        label: 'Поставка запчастей', ref: 1.0,    inverse: false, weight: 0.30 },
+    { key: 'urgent_component_delivery', label: 'Срочная доставка',   ref: 1.0,    inverse: false, weight: 0.30 },
+  ],
+  electronics_manufacturers: [
+    { key: 'min_order_rub',     label: 'Мин. заказ (руб)',    ref: 10000.0, inverse: true,  weight: 0.40 },
+    { key: 'wholesale_supply',  label: 'Оптовые поставки',    ref: 1.0,     inverse: false, weight: 0.30 },
+    { key: 'contract_assembly', label: 'Контрактная сборка',  ref: 1.0,     inverse: false, weight: 0.30 },
+  ],
+};
+
+const KTU_CATEGORIES = {
+  'Электронные компоненты': ['resistors', 'capacitors', 'integrated_circuits', 'transistors', 'diodes'],
+  'Компоненты':             ['boards', 'connectors'],
+  'Инструменты':            ['soldering_equipment', 'measuring_instruments'],
+  'Услуги':                 ['prototyping', 'repair'],
+  'Дополнительные услуги':  ['technical_documentation', 'engineer_consultation'],
+  'Работа с клиентами':     ['hobbyists', 'service_centers', 'electronics_manufacturers'],
+};
+
+const KTU_COLORS = ['#2196F3','#FF5722','#4CAF50','#9C27B0','#FF9800','#00BCD4','#E91E63'];
+
+function getItemKTUValue(item, field) {
+  if (field.derived === 'layer_type')
+    return (item.type || '').toLowerCase().includes('multi') ? 1.0 : 0.0;
+  if (field.derived === 'mount_th')
+    return (item.mounting_method || '').toLowerCase().includes('through') ? 1.0 : 0.0;
+  const v = item[field.key];
+  if (typeof v === 'boolean') return v ? 1.0 : 0.0;
+  return parseFloat(v) || 0.0;
+}
+
+function computeKTU(item, typeKey) {
+  const spec = KTU_REFERENCE[typeKey];
+  if (!spec) return null;
+  let totalT = 0;
+  const indicators = spec.map(f => {
+    const value = getItemKTUValue(item, f);
+    const q = f.inverse
+      ? (value !== 0 ? f.ref / value : 0)
+      : (f.ref  !== 0 ? value / f.ref  : 0);
+    totalT += f.weight * q;
+    return { label: f.label, q };
+  });
+  return { indicators, totalT };
+}
+
+let currentKTUCategory = null;
+let currentKTUChartType = 'radar';
+let ktuCharts = {};   // typeKey -> Chart instance
+
+function destroyKTUCharts() {
+  Object.values(ktuCharts).forEach(c => c.destroy());
+  ktuCharts = {};
+}
 
 // ── State & persistence ────────────────────────────────────────────────────
 
@@ -291,6 +447,10 @@ function renderSidebar() {
     <div class="nav-item ${currentView === 'analysis' ? 'active' : ''}" onclick="selectAnalysis()" style="padding-left:14px;">
       <span>📊 Анализ закупок</span>
       <span class="nav-badge ${currentView === 'analysis' ? 'has-items' : 'badge-lp'}">LP</span>
+    </div>
+    <div class="nav-item ${currentView === 'ktu' ? 'active' : ''}" onclick="selectKTU()" style="padding-left:14px;">
+      <span>📈 Диаграммы КТУ</span>
+      <span class="nav-badge" style="background:#e0e7ff;color:#4338ca;font-size:10px;">КТУ</span>
     </div>
     <div class="nav-divider"></div>`;
   nav.appendChild(analysisWrap);
